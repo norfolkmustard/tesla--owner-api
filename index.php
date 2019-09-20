@@ -13,7 +13,7 @@ if( isset( $_COOKIE['tesla_access_token'] ) ){
 	$headers 	= [
 		'Content-type: application/json',
 		'Accept: application/json+v6',
-		'User-Agent: notepad.exe',
+		'User-Agent: https://github.com/norfolkmustard/tesla--owner-ap',	
 		'Authorization: Bearer ' . ACCESS_TOKEN
 	];
 	
@@ -74,7 +74,7 @@ if( isset( $_COOKIE['tesla_access_token'] ) ){
 
 } else {
 
-	echo "<form action='".$_SERVER['PHP_SELF']."' method='post'><input type='email' name='email' placeholder='Tesla account email address' ><input type='password' name='password' placeholder='password'><input type='submit' value='submit'></form> " ;
+	echo "<form action='".$_SERVER['PHP_SELF']."' method='post'><input type='email' name='email' placeholder='Tesla account email address' ><input type='password' name='password' placeholder='password'><input type='submit' value='Retrieve access_token'></form> " ;
 
 }
 
