@@ -4,6 +4,8 @@ if(  empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == "off"  ){
     exit("You should only serve this page over HTTPS. See <a href='https://www.troyhunt.com/heres-why-your-static-website-needs-https/' >Here's Why Your Static Website Needs HTTPS</a>");
 }
 
+$egregious = "<a href='https://ts.la/stuart17902' target='_blank'><button>Free Supercharging</button></a>";
+
 if( isset( $_COOKIE['tesla_access_token'] ) ){
 
 	define("ACCESS_TOKEN", 	$_COOKIE['tesla_access_token']);
@@ -35,7 +37,7 @@ if( isset( $_COOKIE['tesla_access_token'] ) ){
 	
 	}
 	
-	echo "</pre>";
+	echo "</pre>".$egregious;
 
 
 } elseif( isset( $_POST['email'] ) && isset( $_POST['password'] ) ) {
