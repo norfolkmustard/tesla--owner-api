@@ -25,11 +25,12 @@ if( isset( $_COOKIE['tesla_access_token'] ) ){
 	
 	echo "<pre>";
 	
-	if( isset( $vehicles['tesla']['response'][0]['id'] ) ){
+	if( isset( $vehicles['tesla']['response'][0]['id_s'] ) ){
 	
-		$url 		= 'https://owner-api.teslamotors.com/api/1/vehicles/'.$vehicles['tesla']['response'][0]['id'].'/vehicle_data';
+		$url 		= 'https://owner-api.teslamotors.com/api/1/vehicles/'.$vehicles['tesla']['response'][0]['id_s'].'/vehicle_data';
 		$vehicle 	= tesla( $url, $headers, $post_data );	
 		print_r($vehicle);
+		print_r($vehicles);
 	
 	} else {
 	
@@ -57,8 +58,8 @@ if( isset( $_COOKIE['tesla_access_token'] ) ){
 		"grant_type" 	=> "password",
 		"client_id" 	=> "81527cff06843c8634fdc09e8ac0abefb46ac849f38fe1e431c2ef2106796384",
 		"client_secret" => "c7257eb71a564034f9419ee651c7d0e5f7aa6bfbd18bafb5c5c033b093bb2fa3",
-		"email"			=> $_POST['email'],
-		"password"		=> $_POST['password']
+		"email"		=> $_POST['email'],
+		"password"	=> $_POST['password']
 	);
 	
 	$auth = tesla( $url, $headers, $post_data );
@@ -92,11 +93,11 @@ function tesla( $url, $headers = array(), $post = array() ){
 	if( !empty( $post ) ){
 	
 		$post_data_encoded	= json_encode($post);
-		curl_setopt($ch,CURLOPT_POST, true);
-		curl_setopt($ch,CURLOPT_POSTFIELDS, $post_data_encoded);
+		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data_encoded);
 	}
 
-	curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1); 
 	curl_setopt($ch, CURLOPT_TIMEOUT, 1);
 	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
@@ -114,13 +115,10 @@ function tesla( $url, $headers = array(), $post = array() ){
 	
 	if( $curl_info['http_code'] != 200 ){
 	
-		$return['curl_info'] 	=	print_r($curl_info, true);
 		rewind($verbose);
-		$verboseLog = stream_get_contents($verbose);
-			
-		//$return[] =	"<fieldset style='padding:1em;margin:1em'><legend> Verbose information </legend>";
-		$return['verbose_log'] 	=	htmlspecialchars($verboseLog);
-		//$return[] =	"</fieldset>";
+		$verboseLog 		= stream_get_contents($verbose);
+		$return['verbose_log'] 	= htmlspecialchars($verboseLog);
+		$return['curl_info'] 	= print_r($curl_info, true);
 				
 	}
 
