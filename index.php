@@ -119,6 +119,7 @@ function tesla( $url, $headers = array(), $post = array() ){
 		$verboseLog 		= stream_get_contents($verbose);
 		$return['verbose_log'] 	= htmlspecialchars($verboseLog);
 		$return['curl_info'] 	= print_r($curl_info, true);
+		$return['result'] 	= print_r($result, true);
 				
 	}
 
@@ -134,28 +135,29 @@ function tesla( $url, $headers = array(), $post = array() ){
 	} else {
 	
 		switch (json_last_error()) {
-        case JSON_ERROR_NONE:
-            $return['json_error'] = ' - No errors';
-        break;
-        case JSON_ERROR_DEPTH:
-            $return['json_error'] = ' - Maximum stack depth exceeded';
-        break;
-        case JSON_ERROR_STATE_MISMATCH:
-            $return['json_error'] = ' - Underflow or the modes mismatch';
-        break;
-        case JSON_ERROR_CTRL_CHAR:
-            $return['json_error'] = ' - Unexpected control character found';
-        break;
-        case JSON_ERROR_SYNTAX:
-            $return['json_error'] = ' - Syntax error, malformed JSON';
-        break;
-        case JSON_ERROR_UTF8:
-            $return['json_error'] = ' - Malformed UTF-8 characters, possibly incorrectly encoded';
-        break;
-        default:
-            $return['json_error'] = ' - Unknown error';
-        break;
-    	}
+
+			case JSON_ERROR_NONE:
+			    $return['json_error'] = ' - No errors';
+			break;
+			case JSON_ERROR_DEPTH:
+			    $return['json_error'] = ' - Maximum stack depth exceeded';
+			break;
+			case JSON_ERROR_STATE_MISMATCH:
+			    $return['json_error'] = ' - Underflow or the modes mismatch';
+			break;
+			case JSON_ERROR_CTRL_CHAR:
+			    $return['json_error'] = ' - Unexpected control character found';
+			break;
+			case JSON_ERROR_SYNTAX:
+			    $return['json_error'] = ' - Syntax error, malformed JSON';
+			break;
+			case JSON_ERROR_UTF8:
+			    $return['json_error'] = ' - Malformed UTF-8 characters, possibly incorrectly encoded';
+			break;
+			default:
+			    $return['json_error'] = ' - Unknown error';
+			break;
+		}
     	
 	
 	}
