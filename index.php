@@ -119,7 +119,7 @@ function tesla( $url, $headers = array(), $post = array() ){
 		$verboseLog 		= stream_get_contents($verbose);
 		$return['verbose_log'] 	= htmlspecialchars($verboseLog);
 		$return['curl_info'] 	= print_r($curl_info, true);
-		$return['result'] 	= print_r($result, true);
+		$return['result'] 	= $result;
 				
 	}
 
