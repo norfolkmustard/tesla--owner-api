@@ -101,8 +101,6 @@ function tesla( $url, $headers = array(), $post = array() ){
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1); 
 	curl_setopt($ch, CURLOPT_TIMEOUT, 1);
 	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-	
-	
 	curl_setopt($ch, CURLOPT_VERBOSE, true);
 	
 	$verbose = fopen('php://temp', 'w+');
@@ -113,53 +111,28 @@ function tesla( $url, $headers = array(), $post = array() ){
 	$curl_info = curl_getinfo($ch);
 	curl_close($ch);
 	
+	$return['curl_info'] 	= print_r($curl_info, true);
+	$return['result'] 	= $result;
+	
 	if( $curl_info['http_code'] != 200 ){
 	
 		rewind($verbose);
 		$verboseLog 		= stream_get_contents($verbose);
 		$return['verbose_log'] 	= htmlspecialchars($verboseLog);
-		$return['curl_info'] 	= print_r($curl_info, true);
-		$return['result'] 	= $result;
 				
 	}
 
 
 	# -- Try to decode the api response as json
-	$result_json = json_decode($result, true);
+	$result_array = json_decode($result, true);
 	
 	
 	if( json_last_error() === JSON_ERROR_NONE ){
 	
-		$return['tesla'] = $result_json;
+		$return['tesla'] = $result_array;
 	
 	} else {
-	
-		switch (json_last_error()) {
-
-			case JSON_ERROR_NONE:
-			    $return['json_error'] = ' - No errors';
-			break;
-			case JSON_ERROR_DEPTH:
-			    $return['json_error'] = ' - Maximum stack depth exceeded';
-			break;
-			case JSON_ERROR_STATE_MISMATCH:
-			    $return['json_error'] = ' - Underflow or the modes mismatch';
-			break;
-			case JSON_ERROR_CTRL_CHAR:
-			    $return['json_error'] = ' - Unexpected control character found';
-			break;
-			case JSON_ERROR_SYNTAX:
-			    $return['json_error'] = ' - Syntax error, malformed JSON';
-			break;
-			case JSON_ERROR_UTF8:
-			    $return['json_error'] = ' - Malformed UTF-8 characters, possibly incorrectly encoded';
-			break;
-			default:
-			    $return['json_error'] = ' - Unknown error';
-			break;
-		}
-    	
-	
+		$return['json_error'] = json_last_error_msg();	
 	}
 	
 	return $return;
